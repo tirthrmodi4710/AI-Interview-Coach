@@ -8,4 +8,4 @@ fpdf2
 bcrypt
 numpy
 supabase
-psycopg2-binarygit
+psycopg2-binary
