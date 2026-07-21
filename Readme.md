@@ -1,176 +1,239 @@
 # 🎯 AI Interview Coach
 
-> A full-stack AI-powered interview preparation platform built with Python and Streamlit.  
-> Practice technical and HR interviews, get real-time AI feedback, analyse your body language, and download a professional PDF report.
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-Latest-red) ![Google
+Gemini](https://img.shields.io/badge/Google-Gemini%202.5%20Flash-4285F4)
+![License](https://img.shields.io/badge/License-MIT-green)
 
----
+> An AI-powered mock interview platform built with **Python** and
+> **Streamlit** that simulates real interview experiences with adaptive
+> questions, AI-driven evaluation, voice input, webcam-based proctoring,
+> and detailed performance reports.
 
-## 🚀 Live Demo
+------------------------------------------------------------------------
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://your-app.streamlit.app)
+# 🚀 Live Demo
 
----
+> **Coming Soon**\
+> The application will be deployed on **Streamlit Community Cloud**.
 
-## 📸 Screenshots
+------------------------------------------------------------------------
 
-> *(Add screenshots of the app here after deployment)*
+# 📸 Screenshots
 
----
+Add screenshots after deployment.
 
-## ✨ Features
+-   Login
+-   Dashboard
+-   Interview Screen
+-   AI Evaluation
+-   Final Report
+-   Interview History
 
-### 🎤 Interview Engine
-- Choose from **4 job roles** — Python Developer, Java Developer, Data Analyst, Frontend Developer
-- Select **experience level** — Beginner, Intermediate, Advanced
-- Choose **interview type** — Technical, HR, Mixed
-- **Static question bank** with curated questions per role and level
-- **AI-generated questions** powered by Google Gemini — unique questions every session
+------------------------------------------------------------------------
 
-### 🤖 AI Evaluation
-- **Local evaluator** for instant offline feedback
-- **Gemini AI evaluator** returns structured feedback:
-  - Score out of 100
-  - What was correct
-  - Missing points
-  - Ideal answer
-- Evaluation screen after every question before moving forward
+# ✨ Features
 
-### 🎙️ Voice Input
-- Browser-based voice recording using the **Web Speech API**
-- Completely free — no API key required
-- Works in Chrome and Edge
-- Transcript fills the answer box for review before submission
+## 🎤 Interview Engine
 
-### 📷 Webcam Analysis
-- Opt-in webcam analysis using **OpenCV**
-- Analyses each snapshot for:
-  - Face detection
-  - Eye contact / gaze direction
-  - Posture score (centering, proximity, upper body visibility)
-  - Confidence score (combined metric)
-- Per-question results shown on evaluation screen
-- Summary shown on final report
+-   Multiple job roles
+    -   Python Developer
+    -   Java Developer
+    -   Data Analyst
+    -   Frontend Developer
+-   Experience levels
+    -   Beginner
+    -   Intermediate
+    -   Advanced
+-   Interview types
+    -   Technical
+    -   HR
+    -   Mixed
+-   Static question bank
+-   AI-generated interview questions using Google Gemini
 
-### 📊 Professional Report
-- Generated at interview completion with:
-  - Overall average score
-  - Technical, Communication, and Confidence scores
-  - Performance band — Strong / Average / Weak
-  - Strength and weakness summary
-  - Score per question bar chart
-  - Performance radar chart
-  - Per-question breakdown with AI feedback and ideal answers
-- **PDF export** — download a professional report with all charts and answers
+------------------------------------------------------------------------
 
-### 🔐 Authentication
-- Register and login with email and password
-- Passwords hashed with **bcrypt**
-- Session management via Streamlit session state
+## 🤖 AI Evaluation
 
-### 📋 Interview History
-- Every completed interview saved automatically to **SQLite**
-- View all past interviews with full score breakdown
-- Re-download PDF for any historical interview
-- Delete interviews you no longer need
+Choose between:
 
----
+-   Local evaluator
+-   Google Gemini AI evaluator
 
-## 🛠 Tech Stack
+Each answer includes:
 
-| Layer | Technology |
-|---|---|
-| Frontend | Streamlit |
-| AI / LLM | Google Gemini 2.5 Flash |
-| Voice Input | Web Speech API (browser-native) |
-| Computer Vision | OpenCV (Haar Cascades) |
-| Charts | Matplotlib |
-| PDF Generation | fpdf2 |
-| Database | SQLite |
-| Auth | bcrypt |
-| Language | Python 3.12 |
+-   Score
+-   Strengths
+-   Missing concepts
+-   Suggested improvements
+-   Ideal answer
 
----
+------------------------------------------------------------------------
 
-## 📁 Project Structure
+## 🎙️ Voice Input
 
-```
-ai-interview-coach/
+-   Browser-based speech recognition
+-   Web Speech API
+-   Chrome & Edge support
+-   Edit transcript before submission
+
+------------------------------------------------------------------------
+
+## 📷 Webcam & Proctoring
+
+-   Optional webcam monitoring
+-   Face detection using OpenCV
+-   Basic posture and framing analysis
+-   Confidence score estimation
+-   Automatic webcam snapshots
+-   Fullscreen interview mode
+-   Tab-switch detection
+-   Copy-paste detection
+-   Proctoring event logging
+
+------------------------------------------------------------------------
+
+## 📊 Professional Report
+
+-   Overall interview score
+-   Technical score
+-   Communication score
+-   Confidence score
+-   Performance band
+-   Question-wise feedback
+-   Charts (Bar + Radar)
+-   AI feedback
+-   Ideal answers
+-   PDF download
+
+------------------------------------------------------------------------
+
+## 🔐 Authentication
+
+-   User Registration
+-   User Login
+-   Password hashing using bcrypt
+-   Session management
+
+------------------------------------------------------------------------
+
+## 📋 Interview History
+
+-   Save completed interviews
+-   Review previous interviews
+-   Delete interviews
+-   Download previous reports
+
+------------------------------------------------------------------------
+
+# 🛠 Tech Stack
+
+  Layer             Technology
+  ----------------- -------------------------------------
+  Frontend          Streamlit
+  Language          Python 3.12
+  AI                Google Gemini 2.5 Flash
+  Voice             Web Speech API
+  Computer Vision   OpenCV
+  Charts            Matplotlib
+  PDF               fpdf2
+  Database          SQLite (Supabase migration planned)
+  Authentication    bcrypt
+  Deployment        Streamlit Community Cloud
+
+------------------------------------------------------------------------
+
+# 📁 Project Structure
+
+``` text
+AI-Interview-Coach/
 │
-├── app.py                          # Main Streamlit application
-│
+├── .streamlit/
+│   └── config.toml
 ├── modules/
-│   ├── ai_evaluator.py             # Local length-based evaluator
-│   ├── auth_service.py             # Register, login, password hashing
-│   ├── db_service.py               # SQLite setup and interview history
-│   ├── gemini_service.py           # Gemini API — evaluation + question generation
-│   ├── interview_engine.py         # Static question bank
-│   ├── report_generator.py         # Charts, report data, PDF export
-│   ├── session_manager.py          # Streamlit session state management
-│   ├── voice_service.py            # Web Speech API HTML component
-│   └── webcam_service.py           # OpenCV webcam snapshot analysis
-│
-├── requirements.txt                # Python dependencies
-├── .env                            # API keys (not committed to Git)
+│   ├── ai_evaluator.py
+│   ├── auth_service.py
+│   ├── db_service.py
+│   ├── gemini_service.py
+│   ├── interview_engine.py
+│   ├── report_generator.py
+│   ├── session_manager.py
+│   ├── voice_service.py
+│   └── webcam_service.py
+├── app.py
+├── requirements.txt
 ├── .gitignore
-└── README.md
+├── README.md
+└── .env.example
 ```
 
----
+------------------------------------------------------------------------
 
-## ⚙️ Setup & Installation
+# ⚙️ Installation
 
-### 1. Clone the repository
+## Clone
 
-```bash
-git clone https://github.com/YOUR_USERNAME/ai-interview-coach.git
-cd ai-interview-coach
+``` bash
+git clone https://github.com/YOUR_USERNAME/AI-Interview-Coach.git
+cd AI-Interview-Coach
 ```
 
-### 2. Create a virtual environment
+## Create Virtual Environment
 
-```bash
-python3 -m venv venv
-source venv/bin/activate        # Linux / macOS
-venv\Scripts\activate           # Windows
+``` bash
+python -m venv venv
 ```
 
-### 3. Install dependencies
+Activate:
 
-```bash
+Windows
+
+``` bash
+venv\Scripts\activate
+```
+
+Linux/macOS
+
+``` bash
+source venv/bin/activate
+```
+
+## Install
+
+``` bash
 pip install -r requirements.txt
 ```
 
-### 4. Set up environment variables
+## Configure Environment
 
-Create a `.env` file in the project root:
+Create a `.env` file.
 
-```env
-GEMINI_API_KEY=your_gemini_api_key_here
+``` env
+GEMINI_API_KEY=your_api_key
 ```
 
-Get your free Gemini API key at [https://aistudio.google.com](https://aistudio.google.com)
+Get a free API key from https://aistudio.google.com
 
-### 5. Run the application
+## Run
 
-```bash
+``` bash
 streamlit run app.py
 ```
 
-Open [http://localhost:8501](http://localhost:8501) in your browser.
+------------------------------------------------------------------------
 
----
+# 🔑 Environment Variables
 
-## 🔑 Environment Variables
+  Variable         Description
+  ---------------- -----------------------
+  GEMINI_API_KEY   Google Gemini API Key
 
-| Variable | Description | Required |
-|---|---|---|
-| `GEMINI_API_KEY` | Google Gemini API key | Yes |
+------------------------------------------------------------------------
 
----
+# 📦 Dependencies
 
-## 📦 Dependencies
-
-```
+``` text
 streamlit
 google-generativeai
 python-dotenv
@@ -180,70 +243,77 @@ matplotlib
 fpdf2
 bcrypt
 numpy
-mediapipe
 ```
 
----
+------------------------------------------------------------------------
 
-## 🗺️ Development Roadmap
+# 🧠 Workflow
 
-| Phase | Feature | Status |
-|---|---|---|
-| 1 | Clean interview flow with evaluation screen | ✅ Complete |
-| 2 | Gemini structured scoring (score + feedback + ideal answer) | ✅ Complete |
-| 3 | AI-generated questions via Gemini | ✅ Complete |
-| 4 | Voice interview with Web Speech API | ✅ Complete |
-| 5 | Webcam analysis with OpenCV | ✅ Complete |
-| 6 | Professional report with charts and PDF export | ✅ Complete |
-| 7 | User authentication and interview history | ✅ Complete |
-| 8 | Cloud deployment | 🚧 In Progress |
-
----
-
-## 🧠 How It Works
-
-```
-User logs in / registers
+``` text
+User Login/Register
         ↓
-Selects role, level, type, evaluation mode, question source
+Select Interview Configuration
         ↓
-Interview begins — questions served one at a time
+Interview Starts
         ↓
-User answers via text or voice
+Answer via Text or Voice
         ↓
-Answer evaluated (Local or Gemini AI)
+AI Evaluation
         ↓
-Evaluation screen — score, feedback, missing points, ideal answer
+Optional Webcam Analysis
         ↓
-Optional webcam snapshot analysed for posture and eye contact
+Next Question
         ↓
-Next question → repeat
+Interview Completed
         ↓
-Interview complete → Report generated
+Performance Report
         ↓
-Charts rendered (bar + radar)
+Interview Saved
         ↓
-Interview saved to SQLite history
-        ↓
-PDF report available for download
+PDF Download
 ```
 
----
+------------------------------------------------------------------------
 
-## 🔒 Security Notes
+# 🔒 Security
 
-- Passwords are hashed using **bcrypt** before storage — plain text passwords are never saved
-- API keys are stored in `.env` and excluded from version control via `.gitignore`
-- The SQLite database file is local to the deployment environment
+-   Passwords are hashed using bcrypt.
+-   API keys are excluded from Git using `.gitignore`.
+-   Production deployments should use Streamlit Secrets.
+-   SQLite is used for local storage (Supabase migration planned).
 
----
+------------------------------------------------------------------------
 
-## 👤 Author
+# 🚀 Future Enhancements
 
-**Tirth Modi**  
-DevOps Engineer | AI Enthusiast  
-[GitHub](https://github.com/YOUR_USERNAME) · [LinkedIn](https://linkedin.com/in/YOUR_PROFILE)
+-   Supabase PostgreSQL
+-   Cloud Storage
+-   Resume Upload
+-   Personalized Interview Recommendations
+-   Admin Dashboard
+-   Analytics
+-   Multi-language Interviews
 
----
+------------------------------------------------------------------------
+
+# 👨‍💻 Author
+
+**Tirth Modi**
+
+-   GitHub: https://github.com/YOUR_USERNAME
+-   LinkedIn: https://linkedin.com/in/YOUR_PROFILE
+
+------------------------------------------------------------------------
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+------------------------------------------------------------------------
+
+⭐ If you found this project useful, consider giving it a star on
+GitHub!
+
+------------------------------------------------------------------------
 
 > Built with ❤️ using Python, Streamlit, and AI
