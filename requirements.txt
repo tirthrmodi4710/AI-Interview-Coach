@@ -1,0 +1,11 @@
+streamlit
+google-generativeai
+python-dotenv
+opencv-python
+Pillow
+matplotlib
+fpdf2
+bcrypt
+numpy
+supabase
+psycopg2-binary
