@@ -300,8 +300,7 @@ PDF Download
 
 **Tirth Modi**
 
--   GitHub: https://github.com/YOUR_USERNAME
--   LinkedIn: https://linkedin.com/in/YOUR_PROFILE
+-   GitHub: https://github.com/tirthrmodi4710
 
 ------------------------------------------------------------------------
 
