@@ -4,6 +4,13 @@ from PIL import Image
 import io
 import base64
 
+print("========== OpenCV Debug ==========")
+print("cv2 module:", cv2)
+print("cv2 file:", getattr(cv2, "__file__", "No __file__"))
+print("cv2 version:", getattr(cv2, "__version__", "No version"))
+print("Has CascadeClassifier:", hasattr(cv2, "CascadeClassifier"))
+print("cv2.data:", getattr(cv2, "data", "No data"))
+print("==================================")
 
 # Load cascade classifiers once at module level
 _face_cascade = cv2.CascadeClassifier(
@@ -12,7 +19,6 @@ _face_cascade = cv2.CascadeClassifier(
 _eye_cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades + "haarcascade_eye.xml"
 )
-
 
 def analyze_pil_image(pil_image):
     """
