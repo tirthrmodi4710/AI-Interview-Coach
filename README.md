@@ -175,7 +175,7 @@ AI-Interview-Coach/
 ## Clone
 
 ``` bash
-git clone https://github.com/YOUR_USERNAME/AI-Interview-Coach.git
+git clone https://github.com/tirthrmodi4710/AI-Interview-Coach.git
 cd AI-Interview-Coach
 ```
 
@@ -286,7 +286,6 @@ PDF Download
 
 # 🚀 Future Enhancements
 
--   Supabase PostgreSQL
 -   Cloud Storage
 -   Resume Upload
 -   Personalized Interview Recommendations
