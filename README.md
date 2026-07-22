@@ -140,18 +140,19 @@ Each answer includes:
 
 # 🛠 Tech Stack
 
-  Layer             Technology
-  ----------------- -------------------------------------
-  Frontend          Streamlit
-  Language          Python 3.12
-  AI                Google Gemini 2.5 Flash
-  Voice             Web Speech API
-  Computer Vision   OpenCV
-  Charts            Matplotlib
-  PDF               fpdf2
-  Database          Supabase PostgreSQL
-  Authentication    Supabase Auth
-  Deployment        Streamlit Community Cloud
+| Layer | Technology |
+|-------|------------|
+| Frontend | Streamlit |
+| Language | Python 3.12 |
+| AI | Google Gemini 2.5 Flash |
+| Voice | Web Speech API |
+| Computer Vision | OpenCV + MediaPipe |
+| Charts | Matplotlib |
+| PDF | fpdf2 |
+| Database | Supabase PostgreSQL |
+| Authentication | Supabase Auth |
+| Deployment | Streamlit Community Cloud |
+| Computer Vision | OpenCV + MediaPipe |
 
 ------------------------------------------------------------------------
 
