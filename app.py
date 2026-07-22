@@ -145,15 +145,40 @@ span:not(.st-emotion-cache-1kl7f1u) {
     line-height: 1.6;
 }
 
-/* Button text */
+/* ── Force white text inside ALL buttons and tabs ───────────────────────── */
+
+button,
+button *,
 button p,
 button span,
 button div,
-.stButton p,
-.stButton span,
-.stButton div {
+button[data-baseweb="tab"],
+button[data-baseweb="tab"] *,
+button[data-baseweb="tab"] p,
+button[data-baseweb="tab"] span,
+button[data-baseweb="tab"] div,
+button[data-baseweb="tab"] [data-testid="stMarkdownContainer"],
+button[data-baseweb="tab"] [data-testid="stMarkdownContainer"] *,
+.stButton button,
+.stButton button * {
     color: #FFFFFF !important;
     -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* ── Blue background for Streamlit tabs ───────────────────────────────── */
+
+button[data-baseweb="tab"] {
+    background: #2563EB !important;
+    border: none !important;
+    border-radius: 12px !important;
+}
+
+button[data-baseweb="tab"]:hover {
+    background: #1E40AF !important;
+}
+
+button[data-baseweb="tab"][aria-selected="true"] {
+    background: #1E40AF !important;
 }
 
 /* ── Buttons ──────────────────────────────────────────────────────────────────── */
