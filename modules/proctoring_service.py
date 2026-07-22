@@ -1,4 +1,4 @@
-def get_interview_shell(total_questions, duration_seconds, question_index, questions, answers, webcam_enabled=True):
+def get_interview_shell(total_questions, duration_seconds, question_index, questions, answers, webcam_enabled=True, answer_mode="Type"):
     """
     Returns a full-page interview shell HTML that mimics Mercer Mettl:
     - Fixed top navbar with timer and question counter
@@ -459,6 +459,43 @@ def get_interview_shell(total_questions, duration_seconds, question_index, quest
         box-shadow: 0 4px 20px rgba(0,0,0,0.06);
     }}
 
+    .voice-toolbar {{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    }}
+
+    .voice-btn {{
+        background: #2563EB;
+        color: #fff;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: .2s;
+    }}
+
+    .voice-btn:hover {{
+        background: #1E40AF;
+    }}
+
+    .stop-btn {{
+        background: #DC2626;
+    }}
+
+    .stop-btn:hover {{
+        background: #B91C1C;
+    }}
+
+    .voice-status {{
+        font-size: 13px;
+        color: #6B7280;
+        font-weight: 600;
+    }}
+
     .answer-label {{
         font-size: 10px;
         font-weight: 700;
@@ -885,6 +922,7 @@ def get_interview_shell(total_questions, duration_seconds, question_index, quest
             font-size: 12px;
         }}
     }}
+    
 </style>
 </head>
 <body>
@@ -943,13 +981,34 @@ def get_interview_shell(total_questions, duration_seconds, question_index, quest
 
         <div class="answer-card">
             <div class="answer-label">Your Answer</div>
-            <textarea
-                class="answer-textarea"
-                id="answerBox"
-                placeholder="Type your answer here..."
-                onpaste="onPaste()"
-                oninput="onAnswerInput()"
-            >{current_a}</textarea>
+
+            {""
+            if answer_mode != "Voice"
+            else """
+            <div class="voice-toolbar">
+                    <button id="recordBtn" class="voice-btn" onclick="startRecording()">
+                        🎤 Record Answer
+                    </button>
+
+                    <button id="stopBtn" class="voice-btn stop-btn"
+                            onclick="stopRecording()"
+                            style="display:none;">
+                        ⏹ Stop
+                    </button>
+
+                    <span id="voiceStatus" class="voice-status">
+                        Ready
+                    </span>
+                </div>
+                """}
+
+                <textarea
+                    class="answer-textarea"
+                    id="answerBox"
+                    placeholder="Type your answer here..."
+                    onpaste="onPaste()"
+                    oninput="onAnswerInput()"
+                >{current_a}</textarea>
             <div class="answer-footer">
                 <span class="char-count" id="charCount">0 characters</span>
                 <div class="nav-btns">
@@ -977,6 +1036,10 @@ let timerInterval = null;
 let remainingSeconds = DURATION_SECS;
 let webcamStream = null;
 let snapshotInterval = null;
+
+// ── VOICE RECOGNITION ─────────────────────────────────────
+let recognition = null;
+let isRecording = false;
 
 // ── TIMER ────────────────────────────────────────────────────────────────────
 function initTimer() {{
@@ -1103,6 +1166,110 @@ function takeAutoSnapshot() {{
         sessionStorage.setItem("auto_snapshots", JSON.stringify(snapshots));
         pushEvent("auto_snapshot", {{ question: CURRENT_IDX, time: new Date().toISOString() }});
     }} catch(e) {{}}
+}}
+
+// ── VOICE RECOGNITION ─────────────────────────────────────
+
+function initSpeechRecognition() {{
+
+    if ("webkitSpeechRecognition" in window) {{
+        recognition = new webkitSpeechRecognition();
+    }}
+    else if ("SpeechRecognition" in window) {{
+        recognition = new SpeechRecognition();
+    }}
+    else {{
+        const status = document.getElementById("voiceStatus");
+        if (status) {{
+            status.innerText = "Speech Recognition not supported";
+            status.style.color = "#DC2626";
+        }}
+        return;
+    }}
+
+    recognition.lang = "en-US";
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    recognition.onstart = function() {{
+
+        isRecording = true;
+
+        document.getElementById("recordBtn").style.display = "none";
+        document.getElementById("stopBtn").style.display = "inline-block";
+
+        document.getElementById("voiceStatus").innerText = "Listening...";
+        document.getElementById("voiceStatus").style.color = "#16A34A";
+    }};
+
+    recognition.onresult = function(event) {{
+
+        let finalTranscript = "";
+
+        for (let i = event.resultIndex; i < event.results.length; i++) {{
+
+            if (event.results[i].isFinal) {{
+                finalTranscript += event.results[i][0].transcript + " ";
+            }}
+
+        }}
+
+        if (finalTranscript.length > 0) {{
+
+            const box = document.getElementById("answerBox");
+
+            if (box.value.trim() !== "") {{
+                box.value += " ";
+            }}
+
+            box.value += finalTranscript.trim();
+
+            onAnswerInput();
+        }}
+
+    }};
+
+    recognition.onerror = function(event) {{
+
+        document.getElementById("voiceStatus").innerText =
+            "Error: " + event.error;
+
+        document.getElementById("voiceStatus").style.color = "#DC2626";
+
+    }};
+
+    recognition.onend = function() {{
+
+        isRecording = false;
+
+        document.getElementById("recordBtn").style.display = "inline-block";
+        document.getElementById("stopBtn").style.display = "none";
+
+        document.getElementById("voiceStatus").innerText = "Ready";
+        document.getElementById("voiceStatus").style.color = "#6B7280";
+
+    }};
+
+}}
+
+function startRecording() {{
+
+    if (recognition === null) {{
+        initSpeechRecognition();
+    }}
+
+    if (recognition && !isRecording) {{
+        recognition.start();
+    }}
+
+}}
+
+function stopRecording() {{
+
+    if (recognition && isRecording) {{
+        recognition.stop();
+    }}
+
 }}
 
 // ── ANSWER ───────────────────────────────────────────────────────────────────
@@ -1247,6 +1414,10 @@ window.onload = function() {{
         document.getElementById("answerBox").value = savedAnswer;
     }}
     onAnswerInput();
+
+    if(document.getElementById("recordBtn")){{
+    initSpeechRecognition();
+    }}
 }};
 </script>
 </body>

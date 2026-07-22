@@ -203,6 +203,31 @@ button div,
     outline-offset: 2px;
 }
 
+/* ── Streamlit Tabs (BaseWeb) ───────────────────────────── */
+
+button[data-baseweb="tab"] {
+    background: #2563EB !important;
+    color: #FFFFFF !important;
+    border-radius: 12px !important;
+    border: none !important;
+    font-weight: 600 !important;
+    transition: all .2s ease !important;
+}
+
+button[data-baseweb="tab"] * {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+
+button[data-baseweb="tab"]:hover {
+    background: #1E40AF !important;
+}
+
+button[data-baseweb="tab"][aria-selected="true"] {
+    background: #1E40AF !important;
+    color: #FFFFFF !important;
+}
+
 /* ── Inputs ──────────────────────────────────────────────────────────────────── */
 .stTextInput > div > div > input,
 .stTextArea > div > div > textarea {
@@ -1359,7 +1384,8 @@ if st.session_state.interview_started and not st.session_state.interview_complet
             question_index=idx,
             questions=st.session_state.questions,
             answers=st.session_state.answers,
-            webcam_enabled=st.session_state.get("_webcam_enabled", True)
+            webcam_enabled=st.session_state.get("_webcam_enabled", True),
+            answer_mode=st.session_state.get("answer_mode", "Type")
         ),
         height=900,
         scrolling=True
@@ -1551,6 +1577,7 @@ with interview_tab:
                         st.warning("Gemini AI is temporarily unavailable. Using the static question bank instead.")
                         questions = get_questions(role, level)
 
+            st.session_state.answer_mode = answer_mode
             st.session_state.interview_started = True
             st.session_state.interview_completed = False
             st.session_state._interview_saved = False
