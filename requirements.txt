@@ -10,7 +10,7 @@ python-dotenv==1.2.2
 fpdf2==2.8.7
 
 mediapipe==0.10.35
-opencv-python==4.13.0.92
+opencv-python-headless==4.13.0.92
 
 matplotlib==3.11.0
 numpy==2.5.0
