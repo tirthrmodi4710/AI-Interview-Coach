@@ -1,5 +1,33 @@
-.env
-venv/
+# Python
 __pycache__/
-*.pyc
-*.db
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Environment
+.env
+
+# Streamlit Secrets
+.streamlit/secrets.toml
+
+# Old SQLite Database
+interview_coach.db
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Pytest cache
+.pytest_cache/
+
+# Mypy cache
+.mypy_cache/

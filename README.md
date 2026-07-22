@@ -3,6 +3,9 @@
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Latest-red) ![Google
 Gemini](https://img.shields.io/badge/Google-Gemini%202.5%20Flash-4285F4)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase)
+![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8?logo=opencv)
+![MediaPipe](https://img.shields.io/badge/MediaPipe-AI-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 > An AI-powered mock interview platform built with **Python** and
@@ -14,8 +17,8 @@ Gemini](https://img.shields.io/badge/Google-Gemini%202.5%20Flash-4285F4)
 
 # 🚀 Live Demo
 
-> **Coming Soon**\
-> The application will be deployed on **Streamlit Community Cloud**.
+> 🌐 Live Application:
+> https://ai-interview-coach-4710.streamlit.app/
 
 ------------------------------------------------------------------------
 
@@ -51,6 +54,13 @@ Add screenshots after deployment.
     -   Mixed
 -   Static question bank
 -   AI-generated interview questions using Google Gemini
+
+## ☁️ Cloud Backend
+
+-   Supabase Authentication
+-   PostgreSQL Database
+-   Row Level Security (RLS)
+-   Secure cloud storage for interview history
 
 ------------------------------------------------------------------------
 
@@ -114,6 +124,7 @@ Each answer includes:
 -   User Registration
 -   User Login
 -   Password hashing using bcrypt
+-   Secure authentication using Supabase Auth
 -   Session management
 
 ------------------------------------------------------------------------
@@ -138,9 +149,41 @@ Each answer includes:
   Computer Vision   OpenCV
   Charts            Matplotlib
   PDF               fpdf2
-  Database          SQLite (Supabase migration planned)
-  Authentication    bcrypt
+  Database          Supabase PostgreSQL
+  Authentication    Supabase Auth
   Deployment        Streamlit Community Cloud
+
+------------------------------------------------------------------------
+
+## 🏗️ Architecture
+
+```mermaid
+flowchart TD
+
+    A[👤 User] --> B[🌐 Streamlit Web App]
+
+    B --> C[🔐 Supabase Auth]
+    C --> D[(👥 User Profiles)]
+
+    B --> E[🎯 Interview Engine]
+    E --> F[📝 Question Generation]
+
+    F --> G[🤖 Google Gemini 2.5 Flash]
+    G --> H[💡 AI Evaluation & Feedback]
+
+    B --> I[🎤 Voice Input]
+    I --> J[🌍 Web Speech API]
+
+    B --> K[📷 Webcam Monitoring]
+    K --> L[👁️ OpenCV + MediaPipe]
+
+    H --> M[(🗄️ Supabase PostgreSQL)]
+
+    M --> N[📊 Interview History]
+
+    H --> O[📄 PDF Report Generator]
+    O --> P[⬇️ Download PDF]
+```
 
 ------------------------------------------------------------------------
 
@@ -153,6 +196,7 @@ AI-Interview-Coach/
 │   └── config.toml
 ├── modules/
 │   ├── ai_evaluator.py
+│   ├── supabase_client.py
 │   ├── auth_service.py
 │   ├── db_service.py
 │   ├── gemini_service.py
@@ -207,10 +251,12 @@ pip install -r requirements.txt
 
 ## Configure Environment
 
-Create a `.env` file.
+Create `.streamlit/secrets.toml`
 
-``` env
-GEMINI_API_KEY=your_api_key
+```toml
+GEMINI_API_KEY="your_api_key"
+SUPABASE_URL="your_supabase_url"
+SUPABASE_KEY="your_supabase_anon_key"
 ```
 
 Get a free API key from https://aistudio.google.com
@@ -225,9 +271,11 @@ streamlit run app.py
 
 # 🔑 Environment Variables
 
-  Variable         Description
-  ---------------- -----------------------
-  GEMINI_API_KEY   Google Gemini API Key
+| Variable | Description |
+|--------- |-------------|
+| GEMINI_API_KEY | Google Gemini API Key |
+| SUPABASE_URL | Supabase Project URL |
+| SUPABASE_KEY | Supabase Anon Key |
 
 ------------------------------------------------------------------------
 
@@ -236,12 +284,14 @@ streamlit run app.py
 ``` text
 streamlit
 google-generativeai
+supabase
+postgrest
 python-dotenv
 opencv-python
+mediapipe
 Pillow
 matplotlib
 fpdf2
-bcrypt
 numpy
 ```
 
@@ -250,25 +300,21 @@ numpy
 # 🧠 Workflow
 
 ``` text
-User Login/Register
+User Registration / Login
         ↓
-Select Interview Configuration
+Supabase Authentication
         ↓
-Interview Starts
+Interview Configuration
         ↓
 Answer via Text or Voice
         ↓
-AI Evaluation
+Gemini AI Evaluation
         ↓
 Optional Webcam Analysis
         ↓
-Next Question
-        ↓
-Interview Completed
-        ↓
 Performance Report
         ↓
-Interview Saved
+Interview Saved to Supabase
         ↓
 PDF Download
 ```
@@ -277,10 +323,11 @@ PDF Download
 
 # 🔒 Security
 
--   Passwords are hashed using bcrypt.
+-   Secure authentication is handled by Supabase Auth.
+-   User interview data is stored in Supabase PostgreSQL.
+-   Row Level Security (RLS) ensures users can only access their own data.
 -   API keys are excluded from Git using `.gitignore`.
--   Production deployments should use Streamlit Secrets.
--   SQLite is used for local storage (Supabase migration planned).
+-   Production deployments use Streamlit Secrets.
 
 ------------------------------------------------------------------------
 
@@ -303,7 +350,7 @@ PDF Download
 
 ------------------------------------------------------------------------
 
-# 📄 License
+# 📄 License (Will Update)
 
 This project is licensed under the MIT License.
 
