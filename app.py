@@ -137,10 +137,10 @@ h2 { font-size: 1.75rem; line-height: 1.3; }
 h3 { font-size: 1.25rem; line-height: 1.4; }
 h4 { font-size: 1rem; line-height: 1.5; }
 
-/* Normal text */
+/* Normal page text */
 p,
 li,
-span:not(.st-emotion-cache-1kl7f1u) {
+span {
     color: #6B7280;
     line-height: 1.6;
 }
@@ -160,7 +160,17 @@ button[data-baseweb="tab"] div,
 button[data-baseweb="tab"] [data-testid="stMarkdownContainer"],
 button[data-baseweb="tab"] [data-testid="stMarkdownContainer"] *,
 .stButton button,
-.stButton button * {
+.stButton button *,
+.stDownloadButton button,
+.stDownloadButton button * {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* Download button label */
+.stDownloadButton button p,
+.stDownloadButton button span,
+.stDownloadButton button div {
     color: #FFFFFF !important;
     -webkit-text-fill-color: #FFFFFF !important;
 }
@@ -227,6 +237,35 @@ button[data-baseweb="tab"][aria-selected="true"] {
     outline: 2px solid #2563EB;
     outline-offset: 2px;
 }
+
+/* Download Button */
+    .stDownloadButton > button {
+        background: #2563EB;
+        color: #FFFFFF !important;
+        border: none;
+        border-radius: 12px;
+        padding: 0.625rem 1.5rem;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 0.875rem;
+        letter-spacing: 0.01em;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 3px rgba(37,99,235,.12);
+    }
+
+    .stDownloadButton > button:hover {
+        background: #1E40AF;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(37,99,235,.25);
+    }
+
+    .stDownloadButton > button p,
+    .stDownloadButton > button span,
+    .stDownloadButton > button div,
+    .stDownloadButton > button * {
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
+    }
 
 /* ── Streamlit Tabs (BaseWeb) ───────────────────────────── */
 
@@ -1130,8 +1169,7 @@ button[data-baseweb="tab"][aria-selected="true"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ── DB + Session Init ─────────────────────────────────────────────────────────
-initialize_db()
+# ── Session Init ──────────────────────────────────────────────────────────────
 initialize_session()
 
 # ── Auth Gate ─────────────────────────────────────────────────────────────────
@@ -1257,6 +1295,7 @@ if not st.session_state.logged_in:
         margin: 0 !important;
         opacity: 1 !important;
     }
+
     </style>
     """, unsafe_allow_html=True)
 
@@ -1312,7 +1351,7 @@ if not st.session_state.logged_in:
     st.markdown("""
         <div class="auth-footer">
             By continuing, you agree to our <a href="#">Terms of Service</a>. <br>
-            🔒 Secured with bcrypt encryption.
+            🔒 Secure authentication powered by Supabase..
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -1873,7 +1912,7 @@ with history_tab:
 
         for interview in interviews:
             band_emoji = "🟢" if interview["band"] == "Strong" else "🟡" if interview["band"] == "Average" else "🔴"
-            with st.expander(f"{band_emoji}  {interview['date']}  ·  {interview['role']} ({interview['level']})  ·  Avg: {interview['average_score']}/100"):
+            with st.expander(f"{band_emoji}  {interview['display_date']}  ·  {interview['role']} ({interview['level']})  ·  Avg: {interview['average_score']}/100"):
                 c1, c2, c3, c4 = st.columns(4)
                 with c1: st.metric("Average", f"{interview['average_score']}/100")
                 with c2: st.metric("Technical", f"{interview['technical_score']}/100")

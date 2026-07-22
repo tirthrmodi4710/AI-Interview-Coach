@@ -1,100 +1,92 @@
-import sqlite3
-import bcrypt
-import datetime
-from modules.db_service import get_connection
-
-
-def hash_password(plain_password):
-    return bcrypt.hashpw(
-        plain_password.encode("utf-8"),
-        bcrypt.gensalt()
-    ).decode("utf-8")
-
-
-def verify_password(plain_password, hashed_password):
-    return bcrypt.checkpw(
-        plain_password.encode("utf-8"),
-        hashed_password.encode("utf-8")
-    )
-
+from modules.supabase_client import supabase
+from postgrest.exceptions import APIError
 
 def register_user(name, email, password):
     """
-    Registers a new user.
+    Registers a new user using Supabase Auth.
     Returns (True, "Success") or (False, "error message").
     """
+
     if not name.strip():
         return False, "Name cannot be empty."
+
     if not email.strip() or "@" not in email:
         return False, "Please enter a valid email address."
+
     if len(password) < 6:
         return False, "Password must be at least 6 characters."
 
-    conn = get_connection()
-    cursor = conn.cursor()
-
     try:
-        cursor.execute(
-            "SELECT id FROM users WHERE email = ?",
-            (email.lower().strip(),)
-        )
-        if cursor.fetchone():
-            return False, "An account with this email already exists."
+        # Create auth user
+        auth_response = supabase.auth.sign_up({
+            "email": email.lower().strip(),
+            "password": password
+        })
 
-        password_hash = hash_password(password)
+        user = auth_response.user
 
-        cursor.execute("""
-            INSERT INTO users (name, email, password_hash, created_at)
-            VALUES (?, ?, ?, ?)
-        """, (
-            name.strip(),
-            email.lower().strip(),
-            password_hash,
-            datetime.date.today().strftime("%d %B %Y")
-        ))
+        if user is None:
+            return False, "Failed to create account."
 
-        conn.commit()
+        # Create profile
+        supabase.table("profiles").insert({
+            "id": user.id,
+            "name": name.strip()
+        }).execute()
+
         return True, "Account created successfully."
 
+    except APIError as e:
+        message = str(e)
+
+        if "already registered" in message.lower():
+            return False, "An account with this email already exists."
+
+        return False, message
+
     except Exception as e:
-        return False, f"Registration error: {str(e)}"
-
-    finally:
-        conn.close()
-
+        return False, str(e)
 
 def login_user(email, password):
     """
-    Validates credentials.
+    Authenticates a user using Supabase Auth.
     Returns (True, user_dict) or (False, "error message").
     """
+
     if not email.strip() or not password.strip():
         return False, "Please enter both email and password."
 
-    conn = get_connection()
-    cursor = conn.cursor()
-
     try:
-        cursor.execute(
-            "SELECT * FROM users WHERE email = ?",
-            (email.lower().strip(),)
+        auth_response = supabase.auth.sign_in_with_password({
+            "email": email.lower().strip(),
+            "password": password
+        })
+
+        user = auth_response.user
+
+        if user is None:
+            return False, "Invalid email or password."
+
+        # Fetch profile
+        profile = (
+            supabase
+            .table("profiles")
+            .select("name")
+            .eq("id", user.id)
+            .single()
+            .execute()
         )
-        user = cursor.fetchone()
 
-        if not user:
-            return False, "No account found with this email."
-
-        if not verify_password(password, user["password_hash"]):
-            return False, "Incorrect password."
+        profile_data = profile.data or {}
 
         return True, {
-            "id": user["id"],
-            "name": user["name"],
-            "email": user["email"]
+            "id": user.id,
+            "name": profile_data.get("name", ""),
+            "email": user.email
         }
 
-    except Exception as e:
-        return False, f"Login error: {str(e)}"
+    except APIError as e:
+        return False, str(e)
 
-    finally:
-        conn.close()
+    except Exception as e:
+        return False, str(e)
