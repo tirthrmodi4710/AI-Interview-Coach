@@ -1,4 +1,14 @@
-# 🎯 AI Interview Coach
+<p align="center">
+  <img src="assets/logo_rectangle.png" alt="AI Interview Coach" width="450">
+</p>
+
+<h1 align="center">AI Interview Coach</h1>
+
+<p align="center">
+  Adaptive Mock Interview System with AI Feedback, Speech Recognition, and Behavioral Analysis
+</p>
+
+------------------------------------------------------------------------
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Latest-red) ![Google
@@ -22,16 +32,49 @@ Gemini](https://img.shields.io/badge/Google-Gemini%202.5%20Flash-4285F4)
 
 ------------------------------------------------------------------------
 
-# 📸 Screenshots
+## 📸 Application Preview
 
-Add screenshots after deployment.
+### Authentication
 
--   Login
--   Dashboard
--   Interview Screen
--   AI Evaluation
--   Final Report
--   Interview History
+| Login | Create Account |
+|-------|----------------|
+| ![](screenshots/login.png) | ![](screenshots/createaccount.png) |
+
+---
+
+### Dashboard
+
+| Dashboard | Interview Configuration |
+|-----------|-------------------------|
+| ![](screenshots/dashboard.png) | ![](screenshots/interview-configuration.png) |
+
+---
+
+### Interview Modes
+
+| Text Interview | Voice Interview |
+|----------------|-----------------|
+| ![](screenshots/interview-text.png) | ![](screenshots/interview-voice.png) |
+
+---
+
+### AI Evaluation
+
+| Report Overview | Performance Analysis |
+|-----------------|----------------------|
+| ![](screenshots/report-overview.png) | ![](screenshots/report-analysis.png) |
+
+| AI Feedback | Interview History |
+|-------------|-------------------|
+| ![](screenshots/report-feedback.png) | ![](screenshots/history.png) |
+
+---
+
+### Professional PDF Report
+
+<p align="center">
+  <img src="screenshots/pdf-report.png" width="350">
+</p>
 
 ------------------------------------------------------------------------
 

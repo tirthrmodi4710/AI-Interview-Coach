@@ -15,7 +15,6 @@ from modules.proctoring_service import get_interview_shell, get_integrity_summar
 import base64
 from PIL import Image
 
-
 def load_base64_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
@@ -27,6 +26,9 @@ st.set_page_config(
     page_icon=page_icon,
     layout="wide"
 )
+
+# ── Development Configuration ──────────────────────────────────────────
+DEV_MODE = False
 
 # ── Global CSS (Premium Enterprise Design System) ───────────────────────────────
 st.markdown("""
@@ -1492,9 +1494,17 @@ if st.button("Logout", key="logout_btn"):
         del st.session_state[key]
     st.rerun()
 
-interview_tab, history_tab, test_tab = st.tabs([
-    "🎤  Interview", "📋  History", "🛠  Dev Tools"
-])
+if DEV_MODE:
+    interview_tab, history_tab, test_tab = st.tabs([
+        "🎤  Interview",
+        "📋  History",
+        "🛠  Dev Tools"
+    ])
+else:
+    interview_tab, history_tab = st.tabs([
+        "🎤  Interview",
+        "📋  History"
+    ])
 
 # ═════════════════════════════════════════════════════════════════════════════
 # INTERVIEW TAB — Setup screen (PREMIUM REDESIGN)
@@ -1564,7 +1574,7 @@ with interview_tab:
 
             st.markdown('<div class="setup-field-group">', unsafe_allow_html=True)
             st.markdown('<div class="field-label">Evaluation Mode</div>', unsafe_allow_html=True)
-            evaluation_mode = st.selectbox("", ["Local", "Gemini AI"], label_visibility="collapsed")
+            evaluation_mode = st.selectbox("", ["Local", "AI"], label_visibility="collapsed")
             st.markdown('</div>', unsafe_allow_html=True)
 
             st.markdown('<div class="setup-field-group">', unsafe_allow_html=True)
@@ -1641,7 +1651,7 @@ with interview_tab:
             if question_source == "Static Bank":
                 questions = get_questions(role, level)
             else:
-                with st.spinner("Generating questions with Gemini AI..."):
+                with st.spinner("Generating questions with AI..."):
                     try:
                         questions = generate_questions(role, level, interview_type, num_questions)
                     except Exception:
@@ -1964,35 +1974,38 @@ with history_tab:
 # ═════════════════════════════════════════════════════════════════════════════
 # DEV TOOLS TAB
 # ═════════════════════════════════════════════════════════════════════════════
-with test_tab:
-    st.markdown("""
-    <div class="section-header">Developer Tools</div>
-    <div class="section-title">Gemini AI Integration</div>
-    <div class="section-subtitle">Test your Gemini API connection and evaluation capabilities</div>
-    """, unsafe_allow_html=True)
 
-    t1, t2 = st.columns(2)
-    with t1:
-        st.markdown('<div class="enterprise-card">', unsafe_allow_html=True)
-        if st.button("🔌 Test Gemini Connection", use_container_width=True):
-            try:
-                response = test_gemini()
-                st.success("✅ Connected successfully!")
-                st.markdown(f"<div style='background:#F8FAFC; padding:1rem; border-radius:8px; margin-top:0.5rem;'><code style='font-size:0.8rem;'>{response}</code></div>", unsafe_allow_html=True)
-            except Exception as e:
-                st.error(f"❌ Connection failed: {str(e)}")
-        st.markdown('</div>', unsafe_allow_html=True)
+if DEV_MODE:
 
-    with t2:
-        st.markdown('<div class="enterprise-card">', unsafe_allow_html=True)
-        if st.button("🧠 Test Gemini Evaluation", use_container_width=True):
-            try:
-                result = evaluate_with_gemini("What is Python?", "Python is a programming language.")
-                st.success("✅ Evaluation complete!")
-                st.metric("Score", f"{result['score']}/100")
-                if result.get("feedback"): st.info(f"💡 {result['feedback']}")
-                if result.get("missing_points"): st.warning(f"📌 {result['missing_points']}")
-                if result.get("ideal_answer"): st.success(f"✨ {result['ideal_answer']}")
-            except Exception as e:
-                st.error(f"❌ Evaluation failed: {str(e)}")
-        st.markdown('</div>', unsafe_allow_html=True)
+    with test_tab:
+        st.markdown("""
+        <div class="section-header">Developer Tools</div>
+        <div class="section-title">Gemini AI Integration</div>
+        <div class="section-subtitle">Test your Gemini API connection and evaluation capabilities</div>
+        """, unsafe_allow_html=True)
+
+        t1, t2 = st.columns(2)
+        with t1:
+            st.markdown('<div class="enterprise-card">', unsafe_allow_html=True)
+            if st.button("🔌 Test Gemini Connection", use_container_width=True):
+                try:
+                    response = test_gemini()
+                    st.success("✅ Connected successfully!")
+                    st.markdown(f"<div style='background:#F8FAFC; padding:1rem; border-radius:8px; margin-top:0.5rem;'><code style='font-size:0.8rem;'>{response}</code></div>", unsafe_allow_html=True)
+                except Exception as e:
+                    st.error(f"❌ Connection failed: {str(e)}")
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        with t2:
+            st.markdown('<div class="enterprise-card">', unsafe_allow_html=True)
+            if st.button("🧠 Test Gemini Evaluation", use_container_width=True):
+                try:
+                    result = evaluate_with_gemini("What is Python?", "Python is a programming language.")
+                    st.success("✅ Evaluation complete!")
+                    st.metric("Score", f"{result['score']}/100")
+                    if result.get("feedback"): st.info(f"💡 {result['feedback']}")
+                    if result.get("missing_points"): st.warning(f"📌 {result['missing_points']}")
+                    if result.get("ideal_answer"): st.success(f"✨ {result['ideal_answer']}")
+                except Exception as e:
+                    st.error(f"❌ Evaluation failed: {str(e)}")
+            st.markdown('</div>', unsafe_allow_html=True)
