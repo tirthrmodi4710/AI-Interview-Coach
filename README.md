@@ -70,11 +70,11 @@ Gemini](https://img.shields.io/badge/Google-Gemini%202.5%20Flash-4285F4)
 
 ---
 
-### Professional PDF Report
+### 📄 Professional AI Interview Report
 
-<p align="center">
-  <img src="screenshots/pdf-report.png" width="350">
-</p>
+| Report Cover | Detailed Question Evaluation |
+|---------------|------------------------------|
+| ![](screenshots/pdf-report-cover.png) | ![](screenshots/pdf-report-details.png) |
 
 ------------------------------------------------------------------------
 
@@ -104,6 +104,16 @@ Gemini](https://img.shields.io/badge/Google-Gemini%202.5%20Flash-4285F4)
 -   PostgreSQL Database
 -   Row Level Security (RLS)
 -   Secure cloud storage for interview history
+
+## 📄 PDF Report
+
+-   Professional branded cover page
+-   Candidate and interview details
+-   Overall interview summary and score
+-   Question-by-question evaluation
+-   Candidate's submitted answers
+-   AI-generated scores for each response
+-   Personalized feedback and improvement suggestions
 
 ------------------------------------------------------------------------
 
