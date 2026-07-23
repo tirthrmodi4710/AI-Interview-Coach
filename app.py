@@ -12,10 +12,19 @@ from modules.webcam_service import analyze_pil_image
 from modules.db_service import initialize_db, save_interview, get_user_interviews, delete_interview
 from modules.auth_service import register_user, login_user
 from modules.proctoring_service import get_interview_shell, get_integrity_summary
+import base64
+from PIL import Image
+
+
+def load_base64_image(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+page_icon = Image.open("assets/logo_square.png")
 
 st.set_page_config(
     page_title="AI Interview Coach",
-    page_icon="🎯",
+    page_icon=page_icon,
     layout="wide"
 )
 
@@ -1191,31 +1200,24 @@ if not st.session_state.logged_in:
     }
     
     .auth-card {
-        background: #FFFFFF;
-        border-radius: 24px;
-        padding: 2.5rem 2rem;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04);
-        border: 1px solid #E5E7EB;
-        animation: fadeIn 0.4s ease-out;
-        width: 100%;
+        padding: 0;
     }
-    
+
     .auth-logo {
+        padding: 1.5rem 2rem 1rem;
         text-align: center;
-        margin-bottom: 2rem;
     }
-    
-    .auth-logo-icon {
-        font-size: 3rem;
-        margin-bottom: 0.5rem;
+
+    .auth-content {
+        padding: 0 2rem 2rem;
     }
-    
-    .auth-logo h1 {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: #111827;
-        margin: 0;
-        letter-spacing: -0.02em;
+
+    .auth-logo-image {
+        width: 210%;
+        max-width: 560px;
+        height: auto;
+        display: block;
+        margin: 0 auto 18px auto;
     }
     
     .auth-logo p {
@@ -1300,13 +1302,18 @@ if not st.session_state.logged_in:
     """, unsafe_allow_html=True)
 
     # Auth Card
-    st.markdown("""
+    logo_base64 = load_base64_image("assets/logo_rectangle.png")
+
+    st.markdown(f"""
     <div class="auth-card">
         <div class="auth-logo">
-            <div class="auth-logo-icon">🎯</div>
-            <h1>AI Interview Coach</h1>
-            <p>Practice smarter. Get hired faster.</p>
+            <img
+                src="data:image/png;base64,{logo_base64}"
+                class="auth-logo-image"
+            />
+            <p>--AI Powered Practice Interview--</p>
         </div>
+    </div>
     """, unsafe_allow_html=True)
 
     auth_tab, register_tab = st.tabs(["Sign In", "Create Account"])
@@ -1500,7 +1507,7 @@ with interview_tab:
         st.markdown(f"""
         <div class="welcome-banner fade-in">
             <div class="welcome-badge">AI Interview Coach</div>
-            <h1>Welcome back, {user['name']}</h1>
+            <h1>Welcome.. {user['name']}</h1>
             <p>
                 Prepare for your next interview with AI-powered practice sessions.
                 Get real-time feedback and actionable insights.
