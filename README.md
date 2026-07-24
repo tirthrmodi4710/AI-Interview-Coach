@@ -254,6 +254,7 @@ AI-Interview-Coach/
 │   ├── db_service.py
 │   ├── gemini_service.py
 │   ├── interview_engine.py
+│   ├── proctoring_service.py
 │   ├── report_generator.py
 │   ├── session_manager.py
 │   ├── voice_service.py
