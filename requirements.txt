@@ -9,11 +9,11 @@ python-dotenv==1.2.2
 
 fpdf2==2.8.7
 
-mediapipe==0.10.35
 opencv-python-headless==4.10.0.84
+numpy==2.0.2
+mediapipe==0.10.14
 
 matplotlib==3.9.2
-numpy==2.0.2
 pandas==2.2.3
 
 Pillow==11.0.0
