@@ -15,7 +15,6 @@
 Gemini](https://img.shields.io/badge/Google-Gemini%202.5%20Flash-4285F4)
 ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase)
 ![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8?logo=opencv)
-![MediaPipe](https://img.shields.io/badge/MediaPipe-AI-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 > An AI-powered mock interview platform built with **Python** and
@@ -199,13 +198,13 @@ Each answer includes:
 | Language | Python 3.12 |
 | AI | Google Gemini 2.5 Flash |
 | Voice | Web Speech API |
-| Computer Vision | OpenCV + MediaPipe |
+| Computer Vision | OpenCV |
 | Charts | Matplotlib |
 | PDF | fpdf2 |
 | Database | Supabase PostgreSQL |
 | Authentication | Supabase Auth |
 | Deployment | Streamlit Community Cloud |
-| Computer Vision | OpenCV + MediaPipe |
+| Computer Vision | OpenCV |
 
 ------------------------------------------------------------------------
 
@@ -229,7 +228,7 @@ flowchart TD
     I --> J[🌍 Web Speech API]
 
     B --> K[📷 Webcam Monitoring]
-    K --> L[👁️ OpenCV + MediaPipe]
+    K --> L[👁️ OpenCV]
 
     H --> M[(🗄️ Supabase PostgreSQL)]
 
@@ -342,7 +341,6 @@ supabase
 postgrest
 python-dotenv
 opencv-python
-mediapipe
 Pillow
 matplotlib
 fpdf2
